@@ -1,8 +1,3 @@
 export default function AllPostsPage() {
-  return (
-    <p>
-      All Posts Page
-      <></>
-    </p>
-  );
+  return <p>All Posts Page</p>;
 }
