@@ -5,7 +5,6 @@ export default function Layout(props) {
     <>
       <MainNavigation />
       <main>{props.children}</main>
-      <p>This is Layout component</p>
     </>
   );
 }

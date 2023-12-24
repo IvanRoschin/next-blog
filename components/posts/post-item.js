@@ -4,6 +4,7 @@ import classes from "./post-item.module.css";
 
 export default function PostItem(props) {
   const { title, image, excerpt, date, slug } = props.post;
+
   const prefix = "/next-blog";
 
   const formatedDate = new Date(date).toLocaleDateString("en-US", {
@@ -22,9 +23,10 @@ export default function PostItem(props) {
           <Image
             src={imagePath}
             alt={title}
-            width={300}
-            height={200}
             layout="responsive"
+            objectFit="cover"
+            width={300}
+            height={150}
           />
         </div>
         <div className={classes.content}>
