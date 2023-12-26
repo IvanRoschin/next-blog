@@ -1,27 +1,48 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
+import Loader from "@components/loader/loader";
 import classes from "./contact-form.module.css";
+
+async function sendContactData(contactDetails) {
+  const resposnse = await fetch("/next-blog/api/contact", {
+    method: "POST",
+    body: JSON.stringify(contactDetails),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await resposnse.json();
+
+  if (!resposnse.ok) {
+    toast.error(data.message || "Something went wrong");
+  }
+}
+
 export default function ContactForm() {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredName, setEnteredName] = useState("");
   const [enteredMessage, setEnteredMessage] = useState("");
+  const [status, setStatus] = useState();
 
-  function sendMessageHandler(event) {
+  async function sendMessageHandler(event) {
     event.preventDefault();
-
-    //opional: add client-side validation
-
-    fetch("/next-blog/api/contact", {
-      method: "POST",
-      body: JSON.stringify({
+    try {
+      setStatus("pending");
+      await sendContactData({
         email: enteredEmail,
         name: enteredName,
         message: enteredMessage,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+      });
+      setStatus("success");
+      toast.success("Request completed successfully.");
+    } catch (error) {
+      setStatus("error");
+      toast.error(error.message || "Failed to complete the request.");
+      return;
+    }
   }
+
   return (
     <section className={classes.contact}>
       <h2>How can I help you?</h2>
@@ -68,6 +89,7 @@ export default function ContactForm() {
           <button>Send Message</button>
         </div>
       </form>
+      {status === "pending" && <Loader color="#000000" />}
     </section>
   );
 }
