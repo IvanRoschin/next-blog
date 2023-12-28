@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint:js": "eslint \"**/*.js\"",
-    "lint:fix": "eslint --fix **/*.js"
+    "lint:js": "eslint src/**/*.{js,jsx}"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
