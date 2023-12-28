@@ -36,6 +36,9 @@ export default function ContactForm() {
       });
       setStatus("success");
       toast.success("Request completed successfully.");
+      setEnteredEmail("");
+      setEnteredName("");
+      setEnteredMessage("");
     } catch (error) {
       setStatus("error");
       toast.error(error.message || "Failed to complete the request.");

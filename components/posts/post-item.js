@@ -23,10 +23,10 @@ export default function PostItem(props) {
           <Image
             src={imagePath}
             alt={title}
-            layout="responsive"
-            objectFit="cover"
             width={300}
             height={150}
+            quality={75}
+            loading="lazy"
           />
         </div>
         <div className={classes.content}>
