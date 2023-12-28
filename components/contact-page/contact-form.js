@@ -1,3 +1,4 @@
+import ReactDom from "react-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Loader from "@components/loader/loader";
@@ -92,7 +93,10 @@ export default function ContactForm() {
           <button>Send Message</button>
         </div>
       </form>
-      {status === "pending" && <Loader color="#000000" />}
+      {ReactDom.createPortal(
+        status === "pending" && <Loader color="#000000" />,
+        document.getElementById("loader")
+      )}
     </section>
   );
 }
