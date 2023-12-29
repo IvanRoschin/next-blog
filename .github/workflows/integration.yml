@@ -13,10 +13,10 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
         with:
-          node-version: "14" # Change this to your desired Node.js version
+          node-version: "18.x" # Change this to your desired Node.js version
 
       - name: Install dependencies
         run: npm install
