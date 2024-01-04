@@ -1,9 +1,11 @@
+import React from "react";
+import ReactDOM from "react-dom";
 import FadeLoader from "react-spinners/FadeLoader";
 import classes from "./loader-container.module.css";
 
 export default function Loader(props) {
   const { color } = props;
-  return (
+  return ReactDOM.createPortal(
     <div className={classes.container}>
       <FadeLoader
         color={color}
@@ -11,6 +13,7 @@ export default function Loader(props) {
         aria-label="Loading Spinner"
         data-testid="loader"
       />
-    </div>
+    </div>,
+    document.getElementById("loader")
   );
 }

@@ -1,19 +1,4 @@
-import clientPromise from "@lib/mongo";
-
-let client;
-let db;
-let messages;
-
-async function init() {
-  if (db) return;
-  try {
-    client = await clientPromise;
-    db = client.db();
-    messages = db.collection("messages");
-  } catch (error) {
-    throw new Error("Faild to stablish connection to database");
-  }
-}
+import { connectDatabase } from "@/db/mongo/db-utils";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -22,33 +7,39 @@ export default async function handler(req, res) {
       !email ||
       !email.includes("@") ||
       !name ||
-      name.trim() === "" || // Fixed function invocation for trimming
+      name.trim() === "" ||
       !message ||
-      message.trim() === "" // Fixed function invocation for trimming
+      message.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input" });
       return;
     }
 
-    const newMessage = {
-      email,
-      name,
-      message,
-    };
+    let client;
 
-    // Store to DB
     try {
-      await init();
-      const result = await messages.insertOne(newMessage);
+      client = await connectDatabase();
+      const db = client.db();
+      const messagesCollection = db.collection("messages");
+      const newMessage = {
+        email,
+        name,
+        message,
+      };
+
+      const result = await messagesCollection.insertOne(newMessage);
       newMessage.id = result.insertedId;
-    } catch (error) {
       client.close();
       res
-        .status(500)
-        .json({ message: error.message || "Error storing message" });
+        .status(201)
+        .json({ message: "Successfully stored message", data: newMessage });
+    } catch (error) {
+      if (client) {
+        client.close();
+      }
+      res.status(500).json({ message: error.message || "Insert data error" });
     }
-    res
-      .status(201)
-      .json({ message: "Successfully stored message", data: newMessage });
+  } else {
+    res.status(405).json({ message: "Method Not Allowed" });
   }
 }

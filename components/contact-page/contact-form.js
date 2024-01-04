@@ -93,10 +93,7 @@ export default function ContactForm() {
           <button>Send Message</button>
         </div>
       </form>
-      {ReactDom.createPortal(
-        status === "pending" && <Loader color="#000000" />,
-        document.getElementById("loader")
-      )}
+      {status === "pending" && <Loader color="#000000" />}
     </section>
   );
 }
