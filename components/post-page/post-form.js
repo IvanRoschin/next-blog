@@ -1,4 +1,3 @@
-import ReactDom from "react-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Loader from "@components/loader/loader";
