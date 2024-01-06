@@ -1,9 +1,21 @@
-import { connectDatabase, insertDocument } from "@/db/mongo/db-utils";
+import { connectDatabase, insertDocument } from "../../db/mongo/db-utils";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { title, postText } = req.body;
-    if (!title || title.trim() === "" || !postText || postText.trim() === "") {
+    console.log("req.body", req.body);
+    const { title, excerpt, text, image, date, isFeatured } = req.body;
+    if (
+      !title ||
+      title.trim() === "" ||
+      !excerpt ||
+      excerpt.trim() === "" ||
+      !text ||
+      text.trim() === "" ||
+      !image ||
+      image.trim() === "" ||
+      !date ||
+      date.trim() === ""
+    ) {
       res.status(422).json({ message: "Invalid data" });
       return;
     }
@@ -18,8 +30,12 @@ export default async function handler(req, res) {
     }
     try {
       await insertDocument(client, "posts", {
-        title: title,
-        postText: postText,
+        title,
+        excerpt,
+        text,
+        image,
+        date,
+        isFeatured,
       });
       client.close();
     } catch (error) {

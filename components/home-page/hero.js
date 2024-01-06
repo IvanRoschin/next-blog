@@ -2,8 +2,8 @@ import Image from "next/image";
 
 import classes from "./hero.module.css";
 
-const prefix = "/next-blog";
-const imagePath = `${prefix}/images/site/max.webp`;
+// const prefix = "/next-blog";
+const imagePath = `/images/site/max.webp`;
 
 export default function Hero() {
   return (

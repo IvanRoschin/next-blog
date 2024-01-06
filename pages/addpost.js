@@ -1,9 +1,9 @@
-import PostForm from "@components/post-page/post-form";
+import AddNewPost from "../components/post-page/post-form";
 
 export default function Post() {
   return (
     <>
-      <PostForm />
+      <AddNewPost />
     </>
   );
 }

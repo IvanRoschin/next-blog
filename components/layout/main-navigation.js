@@ -6,7 +6,7 @@ export default function MainNavigation() {
   return (
     <>
       <header className={classes.header}>
-        <Link href="/next-blog">
+        <Link href="/">
           <Logo />
         </Link>
         <nav>

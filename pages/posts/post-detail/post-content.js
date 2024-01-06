@@ -1,15 +1,20 @@
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import atomDark from "react-syntax-highlighter/dist/cjs/styles/prism/atom-dark";
+import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
+import css from "react-syntax-highlighter/dist/cjs/languages/prism/css";
 
 import PostHeader from "./post-header";
 import classes from "./post-content.module.css";
 
+SyntaxHighlighter.registerLanguage("js", js);
+SyntaxHighlighter.registerLanguage("css", css);
+
 export default function PostContent(props) {
   const { post } = props;
-  const prefix = "/next-blog";
-  const imagePath = `${prefix}/images/posts/${post.slug}/${post.image}`;
+  // const prefix = "/next-blog";
+  const imagePath = `/images/posts/${post.slug}/${post.image}`;
 
   const customRenderer = {
     p(paragraph) {
@@ -24,7 +29,7 @@ export default function PostContent(props) {
         const width = metaWidth ? metaWidth[1] : "600";
         const height = metaHeight ? metaHeight[1] : "300";
         const isPriority = metastring?.toLowerCase().match("{priority}");
-        const src = `${prefix}/images/posts/${post.slug}/${image.properties.src}`;
+        const src = `/images/posts/${post.slug}/${image.properties.src}`;
 
         return (
           <div className={classes.image}>

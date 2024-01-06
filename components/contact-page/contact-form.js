@@ -4,7 +4,7 @@ import Loader from "@components/loader/loader";
 import classes from "./contact-form.module.css";
 
 async function sendContactData(contactDetails) {
-  const resposnse = await fetch("/next-blog/api/contact", {
+  const resposnse = await fetch("/api/contact", {
     method: "POST",
     body: JSON.stringify(contactDetails),
     headers: {

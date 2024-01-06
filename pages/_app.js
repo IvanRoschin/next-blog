@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { Toaster } from "react-hot-toast";
-import Layout from "@/components/layout/layout";
+import Layout from "../components/layout/layout";
 
-import "@/styles/globals.css";
+import "../styles/globals.css";
 
 export default function App({ Component, pageProps }) {
   return (

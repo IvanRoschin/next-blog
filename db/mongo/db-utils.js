@@ -1,13 +1,13 @@
 import { MongoClient } from "mongodb";
 
-const URI = process.env.MONGO_URI;
+const connetcionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.djatngh.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`;
 
-if (!URI) {
-  throw new Error("Please add your Mongo URI to .env");
+if (!connetcionString) {
+  throw new Error("Please add your Mongo connetcionData to next.config.js");
 }
 
 export async function connectDatabase() {
-  const client = new MongoClient(URI, {
+  const client = new MongoClient(connetcionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

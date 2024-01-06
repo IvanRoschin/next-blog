@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Hero from "@/components/home-page/hero";
-import FeaturedPosts from "@/components/home-page/featured-posts";
-import { getFeaturedPosts } from "@/pages/api/posts-util";
+import Hero from "../components/home-page/hero";
+import FeaturedPosts from "../components/home-page/featured-posts";
+import { getFeaturedPosts } from "../pages/api/posts-util";
 
 export default function HomePage(props) {
   return (
