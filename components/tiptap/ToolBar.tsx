@@ -2,6 +2,7 @@
 
 import { type Editor } from "@tiptap/react";
 import React from "react";
+
 import {
   FaBold,
   FaItalic,
@@ -15,6 +16,7 @@ import {
   FaUnderline,
   FaCode,
 } from "react-icons/fa";
+
 import { Toggle } from "../ui/toggle";
 
 type Props = {
@@ -57,19 +59,20 @@ export const Toolbar = ({ editor }: Props) => {
         >
           <FaStrikethrough />
         </Toggle>
+
         <Toggle
           size="sm"
-          pressed={editor.isActive("code")}
-          onPressedChange={() => editor.chain().focus().toggleCode().run()}
+          pressed={editor.isActive("codeBlock")}
+          onPressedChange={() => editor.chain().focus().toggleCodeBlock().run()}
         >
           <FaCode />
         </Toggle>
 
         <Toggle
           size="sm"
-          pressed={editor.isActive("heading", { level: 1 })}
+          pressed={editor.isActive("heading", { level: 2 })}
           onPressedChange={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
           }
         >
           <FaHeading />
@@ -108,6 +111,7 @@ export const Toolbar = ({ editor }: Props) => {
           size="sm"
           pressed={editor.isActive("undo")}
           onPressedChange={() => editor.chain().focus().undo().run()}
+          disabled={!editor.can().chain().focus().undo().run()}
         >
           <FaUndo />
         </Toggle>
@@ -115,6 +119,7 @@ export const Toolbar = ({ editor }: Props) => {
           size="sm"
           pressed={editor.isActive("redo")}
           onPressedChange={() => editor.chain().focus().redo().run()}
+          disabled={!editor.can().chain().focus().redo().run()}
         >
           <FaRedo />
         </Toggle>

@@ -24,12 +24,14 @@
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^1.41.1",
     "clsx": "^2.1.0",
+    "date-fns": "^3.1.0",
     "gray-matter": "^4.0.3",
-    "lucide-react": "^0.305.0",
+    "lucide-react": "^0.307.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "next": "14.0.4",
     "react": "^18",
+    "react-datepicker": "^4.25.0",
     "react-dom": "^18",
     "react-hook-form": "^7.49.2",
     "react-hot-toast": "^2.4.1",
@@ -43,6 +45,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/react-datepicker": "^4.19.5",
     "autoprefixer": "^10.4.16",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",

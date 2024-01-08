@@ -1,11 +1,11 @@
 "use client";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
-import Underline from "@tiptap/extension-underline";
-import Heading from "@tiptap/extension-heading";
 import { Toolbar } from "./ToolBar";
+import { Color } from "@tiptap/extension-color";
 
 export default function Tiptap({
   description,
@@ -16,6 +16,8 @@ export default function Tiptap({
 }) {
   const editor = useEditor({
     extensions: [
+      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      TextStyle.configure({ types: [ListItem.name] }),
       StarterKit.configure({
         bulletList: {
           keepMarks: true,
@@ -26,14 +28,6 @@ export default function Tiptap({
           keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
         },
       }),
-      Heading.configure({
-        HTMLAttributes: {
-          class: "text-xl font-bold",
-          levels: [2],
-        },
-      }),
-      ListItem,
-      TextStyle,
       Underline,
     ],
     content: description,
@@ -45,14 +39,15 @@ export default function Tiptap({
     },
     onUpdate({ editor }) {
       onChange(editor.getHTML());
-      console.log(editor.getHTML());
     },
   });
 
   return (
-    <div className="flex flex-col justify-stretch min-h-[250px]">
+    <div className="text-editor">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
   );
 }
+
+// className = "flex flex-col justify-stretch min-h-[250px]";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,13 +17,24 @@ import { Label } from "@components/ui/label";
 import { Button } from "@components/ui/button";
 import Tiptap from "@components/tiptap/Tiptap";
 import Loader from "@components/loader/loader";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-interface PostDetails {
+export interface PostDetails {
   title: string;
   excerpt: string;
   text: string;
   date: string;
-  image: string;
+  imageUrl: string;
+  isFeatured: boolean;
+}
+
+export interface FormValues {
+  title: string;
+  excerpt: string;
+  text: string;
+  date: string;
+  image: FileList;
   isFeatured: boolean;
 }
 
@@ -59,9 +72,9 @@ export default function AddNewPost() {
       .min(5, { message: "Hey the Post text is not long enough" })
       .max(100, { message: "It's too long" })
       .trim(),
-    date: z.string(),
+    date: z.date(),
     isFeatured: z.boolean(),
-    image: z.string().trim(),
+    image: z.any(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -71,48 +84,49 @@ export default function AddNewPost() {
       title: "",
       excerpt: "",
       text: "",
-      date: "",
-      image: "",
+      date: undefined,
       isFeatured: false,
     },
   });
 
   //Stored FormData (1)
   //Сохраняем значения в localStorage
-  const watchedFields = form.watch([
-    "title",
-    "excerpt",
-    "text",
-    "date",
-    "isFeatured",
-    "image",
-  ]);
+  // const watchedFields = form.watch([
+  //   "title",
+  //   "excerpt",
+  //   "text",
+  //   "date",
+  //   "isFeatured",
+  //   "image",
+  // ]);
 
-  useEffect(() => {
-    localStorage.setItem("formData", JSON.stringify(watchedFields));
-  }, [watchedFields]);
+  // useEffect(() => {
+  //   localStorage.setItem("formData", JSON.stringify(watchedFields));
+  // }, [watchedFields]);
 
   //Stored FormData (2)
   // Получаем значения из localStorage при загрузке компонента
-  useEffect(() => {
-    const storedData = localStorage.getItem("formData");
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      Object.keys(parsedData).forEach((key) =>
-        form.setValue(key, parsedData[key])
-      );
-    }
-  }, [form.setValue, form]);
-  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true);
+  // useEffect(() => {
+  //   const storedData = localStorage.getItem("formData");
+  //   if (storedData) {
+  //     const parsedData = JSON.parse(storedData);
+  //     Object.keys(parsedData).forEach((key) =>
+  //       form.setValue(key, parsedData[key])
+  //     );
+  //   }
+  // }, [form.setValue, form]);
 
-    const raw_image = values.image[0];
-    const formData = new FormData();
-    formData.append("file", raw_image);
-    formData.append("upload_preset", "nextBlogPostsPreset");
+  async function handleSubmit(values: any) {
+    setLoading(true);
 
     //upload to Cloudinary
     try {
+      const raw_image = values.image[0];
+
+      const formData = new FormData();
+      formData.append("file", raw_image);
+      formData.append("upload_preset", "nextBlogPostsPreset");
+
       const uploadUrl = `https://api.cloudinary.com/v1_1/${process.env.cloudinary_cloud_name}/image/upload`;
       const uploadResponse = await fetch(uploadUrl, {
         method: "POST",
@@ -120,6 +134,8 @@ export default function AddNewPost() {
       });
       if (!uploadResponse.ok) {
         toast.error("Image upload faild");
+        setLoading(false);
+        return;
       }
       const imageData = await uploadResponse.json();
       const imageUrl = imageData.secure_url;
@@ -140,10 +156,7 @@ export default function AddNewPost() {
     } catch (error: any) {
       (error as Error).message || "Upload image error";
     }
-
-    console.log(values.title), console.log(values.text);
-    console.log(values.excerpt);
-  };
+  }
 
   return (
     <div className="p-24">
@@ -199,7 +212,15 @@ export default function AddNewPost() {
               <FormItem>
                 <Label>Post Date</Label>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <DatePicker
+                    placeholderText="Select date"
+                    onChange={(date) => field.onChange(date)}
+                    selected={field.value}
+                    dateFormat="d MMM yyyy"
+                    minDate={new Date()}
+                    todayButton="Today"
+                    shouldCloseOnSelect
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -230,7 +251,14 @@ export default function AddNewPost() {
               <FormItem>
                 <Label>Post Image</Label>
                 <FormControl>
-                  <Input type="file" accept="image/*" {...field} />
+                  <Input
+                    id="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      field.onChange(e.target.files);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
