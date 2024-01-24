@@ -1,6 +1,6 @@
 import Link from "next/link";
 import DatePicker from "react-datepicker";
-import Tiptap from "./Tiptap";
+// import Tiptap from "./Tiptap";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -39,8 +39,8 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           required
           className="form_excerpt"
         />
-        <Tiptap value={post.text} post={post} setPost={setPost} />
-        {/* <textarea
+        {/* <Tiptap value={post.text} post={post} setPost={setPost} /> */}
+        <textarea
           value={post.text}
           onChange={(e) => {
             setPost({ ...post, text: e.target.value });
@@ -48,7 +48,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           placeholder="Write your Post text here..."
           required
           className="form_textarea"
-        /> */}
+        />
         <div className="flex flex-row items-center justify-between">
           <DatePicker
             placeholderText="Select date"

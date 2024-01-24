@@ -7,7 +7,7 @@ const Home = () => {
       <Image
         src="/assets/images/max.webp"
         alt="Max"
-        className="rounded-full"
+        className="w-64 rounded-full h-72"
         width={200}
         height={200}
       />

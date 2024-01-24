@@ -23,7 +23,7 @@ const Nav = () => {
   }, []);
 
   return (
-    <nav className="w-full pt-3 mb-16 flex-between">
+    <nav className="w-full pt-12 mb-16 flex-between">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
           src="/assets/images/logo.svg"
@@ -65,9 +65,6 @@ const Nav = () => {
           </div>
         ) : (
           <div className=" sm:flex">
-            <Link href="/posts" className="mr-4 black_btn">
-              Posts
-            </Link>
             <Link href="/contact" className="mr-4 black_btn">
               Contact
             </Link>
@@ -133,9 +130,6 @@ const Nav = () => {
           </div>
         ) : (
           <>
-            <Link href="/posts" className="mr-4 black_btn">
-              Posts
-            </Link>
             <Link href="/contact" className="mr-4 black_btn">
               Contact
             </Link>

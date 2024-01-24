@@ -14,7 +14,7 @@ function MyProfile() {
   };
   const handleDelete = async (post) => {
     const hasConfirmed = confirm(
-      "Are your sure your want to delete this Prompt?"
+      "Are your sure your want to delete this Post?"
     );
 
     if (hasConfirmed) {

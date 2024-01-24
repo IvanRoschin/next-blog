@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import fetchAllPosts from "@hooks/fetchPosts";
 import formatedDate from "@utils/formatedDate";
 
@@ -24,12 +23,23 @@ const Post = ({ params }) => {
 
   return (
     <div className="post ">
+      <h2 className="text-xl font-semibold text-center font-satoshi text-gray:900">
+        {post.title}
+      </h2>
       <div className="flex items-start justify-between pb-4">
-        <h2 className="text-lg font-semibold font-satoshi text-gray:900">
-          {post.title}
-        </h2>
+        <div>
+          <div className="flex flex-col items-start text-sm">
+            <h3 className="font-semibold font-satoshi text-gray:900">
+              {post.creator?.username}
+            </h3>
+            <p className="text-sm text-gray-500 font-inter">
+              {post.creator?.email}
+            </p>
+          </div>
+        </div>
         <div className="text-sm text-gray-500 font-inter">{date}</div>
       </div>
+
       <div className="">
         <Image
           src={post.image}
@@ -47,14 +57,6 @@ const Post = ({ params }) => {
         >
           #{post.tag}
         </p>
-        <div className="flex flex-col items-end text-sm">
-          <h3 className="font-semibold font-satoshi text-gray:900">
-            {post.creator?.username}
-          </h3>
-          <p className="text-sm text-gray-500 font-inter">
-            {post.creator?.email}
-          </p>
-        </div>
       </div>
     </div>
   );
