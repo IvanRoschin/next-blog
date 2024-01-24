@@ -11,13 +11,21 @@ const Contact = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) =>
-    await fetch("/api/messages/new", {
-      method: "POST",
-      body: JSON.stringify({
-        ...data,
-      }),
-    });
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("/api/messages/new", {
+        method: "POST",
+        body: JSON.stringify({
+          ...data,
+        }),
+      });
+      if (response.ok) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="flex-col w-full max-w-full flex-start">
@@ -30,11 +38,11 @@ const Contact = () => {
         className="flex flex-col w-full mt-10 max-w2x1 gap-7 glassmorphism"
       >
         <input
-          {...register("name", { required: true })}
+          {...register("name", { required: true, maxLength: 20 })}
           placeholder="Name"
           className="form_input"
         />
-        {errors.name && <p className="error"> Name is required.</p>}
+        {errors.name && <p className="text-red-400"> Name is required.</p>}
 
         <input
           type="email"
@@ -42,7 +50,9 @@ const Contact = () => {
           placeholder="Email"
           className="form_input"
         />
-        {errors.email && <p className="error">Email address is required.</p>}
+        {errors.email && (
+          <p className="text-red-400">Email address is required.</p>
+        )}
 
         <input
           type="tel"
@@ -51,7 +61,7 @@ const Contact = () => {
           placeholder="+380"
           className="form_input"
         />
-        {errors.phone && <p className="error">Phone Number </p>}
+        {errors.phone && <p className="text-red-400">Phone Number invalid </p>}
 
         <input
           type="text"
@@ -59,7 +69,7 @@ const Contact = () => {
           placeholder="Your message"
           className="form_excerpt"
         />
-        {errors.text && <p className="error">Message is required.</p>}
+        {errors.text && <p className="text-red-400">Message is required.</p>}
         <div className="gap-4 mx-3 mb-5 flex-end">
           <Link href="/" className="text-sm text-gray-500">
             Cancel

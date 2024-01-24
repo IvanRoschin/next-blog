@@ -3,7 +3,6 @@ import { Schema, model, models } from "mongoose";
 const MessagesSchema = new Schema({
   email: {
     type: String,
-    unique: [true, "Email already exists!"],
     required: [true, "Email is required!"],
   },
   name: {
@@ -23,6 +22,6 @@ const MessagesSchema = new Schema({
   },
 });
 
-const Messages = models.Messages || model("User", MessagesSchema);
+const Messages = models.Messages || model("Messages", MessagesSchema);
 
 export default Messages;
