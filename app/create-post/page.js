@@ -19,7 +19,6 @@ const CreatePost = () => {
     image: undefined,
     tag: "",
   });
-  console.log("post:", post);
 
   const createPost = async (e) => {
     e.preventDefault();

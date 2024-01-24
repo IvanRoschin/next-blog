@@ -1,37 +1,51 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import formatedDate from "@utils/formatedDate";
 
 const PostCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
-  const router = useRouter();
 
-  const handleNavigateToHomePage = () => {
-    router.push("/");
-  };
+  const date = formatedDate(post.date);
 
-  const [copied, setCopied] = useState("");
-  const handleCopy = () => {
-    setCopied(post.excerpt);
-    navigator.clipboard.writeText(post.excerpt);
-    setTimeout(() => setCopied(""), 3000);
-  };
+  const title = post.title;
+  const path = title.toLowerCase().replace(/\s+/g, "-");
+
   return (
     <div className="prompt_card ">
-      <div className="flex items-start justify-between gap-5">
-        <div className="flex items-center justify-start flex-1 gap-3 cursor-pointer">
-          <Image
-            src={post.creator.image}
-            alt="user_image"
-            width={40}
-            height={40}
-            className="object-contain rounded-full"
-          />
-          <div className="flex flex-col">
+      <Link href={`/post/${path}`} className="cursor-pointer">
+        <div className="flex items-start justify-between gap-5">
+          <div className="gap-3 cursor-pointer ">
+            <Image
+              src={post.image}
+              alt="post_image"
+              width={360}
+              height={360}
+              className="pb-3 full-w"
+            />
+            <div className="flex flex-col text-center">
+              <h3 className="font-semibold font-satoshi text-gray:900">
+                {post.title}
+              </h3>
+              <p className="text-sm text-gray-500 font-inter">{date}</p>
+            </div>
+          </div>
+        </div>
+        <p className="my-4 text-sm font-satoshi text-grey-700">
+          {post.excerpt}
+        </p>
+        <div className="flex items-center justify-between">
+          <p
+            className="text-sm cursor-pointer font-inter blue_gradient"
+            onClick={() => handleTagClick && handleTagClick(post.tag)}
+          >
+            #{post.tag}
+          </p>
+          <div className="flex flex-col items-end text-sm">
             <h3 className="font-semibold font-satoshi text-gray:900">
               {post.creator.username}
             </h3>
@@ -40,26 +54,7 @@ const PostCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
             </p>
           </div>
         </div>
-        <div className="copy_btn" onClick={handleCopy}>
-          <Image
-            src={
-              copied === post.excerpt
-                ? "/assets/icons/tick.svg"
-                : "/assets/icons/copy.svg"
-            }
-            width={12}
-            height={12}
-            alt="copyIcons"
-          />
-        </div>
-      </div>
-      <p className="my-4 text-sm font-satoshi text-grey-700">{post.excerpt}</p>
-      <p
-        className="text-sm cursor-pointer font-inter blue_gradient"
-        onClick={() => handleTagClick && handleTagClick(post.tag)}
-      >
-        #{post.tag}
-      </p>
+      </Link>
       {session?.user.id === post.creator._id && pathName === "/profile" && (
         <div className="gap-4 pt-3 border-t border-gray-100 flex-center tm-5">
           <p

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PostCard from "./PostCard";
+import fetchAllPosts from "@hooks/fetchPosts";
 
 const PostsCardList = ({ data, handleTagClick }) => {
   return (
@@ -14,22 +15,18 @@ const PostsCardList = ({ data, handleTagClick }) => {
 };
 
 const Feed = () => {
-  const [allPosts, setAllPosts] = useState([]);
-
   //Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
-  const fetchPosts = async () => {
-    const response = await fetch("/api/post");
-    const data = await response.json();
-    setAllPosts(data);
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  const { allPosts, error } = fetchAllPosts();
+  if (error) {
+    return <div>Failed to load</div>;
+  }
+  if (!allPosts) {
+    return <div>Loading...</div>;
+  }
 
   const filterPosts = (searchText) => {
     const regex = new RegExp(searchText, "i"); // "i" flag for case-insesitive search
@@ -72,7 +69,7 @@ const Feed = () => {
           className="search_input peer"
         />
       </form>
-      {/* All Prompts*/}
+      {/* All Posts*/}
       {searchText ? (
         <PostsCardList data={searchedResults} handleTagClick={handleTagClick} />
       ) : (

@@ -2,9 +2,10 @@ async function uploadToCloudinary(file) {
   if (file === undefined) {
     return; // Handle the case when the image is undefined
   }
-  // "dpltl4y25";
+
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  const uploadPreset = "nextBlogPostsPreset";
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET
+  console.log('uploadPreset', uploadPreset)
   const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
   const formData = new FormData();

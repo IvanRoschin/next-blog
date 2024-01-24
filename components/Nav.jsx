@@ -28,9 +28,9 @@ const Nav = () => {
         <Image
           src="/assets/images/logo.svg"
           alt="logo"
-          width={30}
-          height={30}
-          className="object-contain"
+          width={60}
+          height={60}
+          className="object-contain border rounded-full"
         />
         <p className="uppercase logo_text text-transform:">Max' Next Blog</p>
       </Link>

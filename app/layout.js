@@ -1,6 +1,7 @@
 import "@/styles/global.css";
 import Nav from "@components/Nav";
 import Provider from "@/components/Provider";
+// import { PostProvider } from "@context/PostContext";
 
 export const metadata = {
   title: "Max's Blog",
@@ -12,6 +13,7 @@ const RootLayout = ({ children }) => {
     <html lang="en">
       <body>
         <Provider>
+          {/* <PostProvider> */}
           <div className="main"></div>
           <div className="gradient" />
 
@@ -19,6 +21,7 @@ const RootLayout = ({ children }) => {
             <Nav />
             {children}
           </main>
+          {/* </PostProvider> */}
         </Provider>
       </body>
     </html>

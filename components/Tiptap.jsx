@@ -8,11 +8,10 @@ import { MenuBar } from "./TiptapMenuBar";
 const Tiptap = ({ post, setPost }) => {
   const editor = useEditor({
     extensions: [StarterKit],
-    content: ``,
+    content: `${post.text}`,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       setPost({ ...post, text: html });
-      console.log(html);
     },
   });
 

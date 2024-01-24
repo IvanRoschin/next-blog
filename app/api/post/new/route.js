@@ -4,7 +4,6 @@ import Post from "@models/post";
 export const POST = async (req) => {
   const { userId, title, excerpt, text, date, isFeatured, image, tag } =
     await req.json();
-  console.log("tag:", tag);
 
   try {
     await connectToDB();

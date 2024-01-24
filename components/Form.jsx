@@ -39,7 +39,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           required
           className="form_excerpt"
         />
-        <Tiptap post={post} setPost={setPost} />
+        <Tiptap value={post.text} post={post} setPost={setPost} />
         {/* <textarea
           value={post.text}
           onChange={(e) => {
