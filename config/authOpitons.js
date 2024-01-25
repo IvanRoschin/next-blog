@@ -1,5 +1,5 @@
 import Google from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
+// import Credentials from "next-auth/providers/credentials";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
 // import Credentials from "next-auth/providers/credentials";
@@ -39,7 +39,10 @@ export const authOptions = {
   callbacks: {
     async session({ session }) {
       // store the user id from MongoDB to session
-      const sessionUser = await User.findOne({ email: session.user.email });
+      const sessionUser = await User.findOne({
+        email: session.user.email,
+        model: User,
+      });
       session.user.id = sessionUser._id.toString();
 
       return session;
